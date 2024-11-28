@@ -9,7 +9,7 @@ import { User } from '../types/Users';
 import { useParams } from "react-router";
 import { CREATE_RECIPE_ID } from '../config';
 
-import './EditRecipes.css';
+import './EditRecipe.css';
 
 export const EditRecipe = () => {
     const [recipe, setRecipe] = useState<Recipe>({

@@ -1,6 +1,6 @@
 import './App.css';
 import { ListRecipes } from './views/ListRecipes';
-import { EditRecipe } from './views/EditRecipes';
+import { EditRecipe } from './views/EditRecipe';
 import {
   Routes,
   Route,
