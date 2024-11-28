@@ -1,0 +1,64 @@
+.edit-recipes-view {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.edit-recipes-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.edit-recipes-form {
+    width: 100%;
+}
+
+.edit-recipes-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0;
+    font-size: 16px
+}
+
+.edit-recipes-form-item-label {
+    font-weight: bold;
+    padding: 5px 0;
+}
+
+.edit-recipes-save-button {
+    width: 100px;
+    height: 40px;
+    margin: 0 5px;
+    font-weight: bold;
+    background-color: blue;
+    border-radius: 10px;
+    color: white;
+}
+
+.edit-recipes-save-button:hover {
+    background-color: darkblue;
+    cursor: pointer;
+}
+
+.edit-recipes-cancel-button {
+    width: 100px;
+    height: 40px;
+    margin: 0 5px;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+}
+
+.edit-recipes-cancel-button:hover {
+    background-color: grey;
+    cursor: pointer;
+}
+
+.edit-recipes-cancel-button-link {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
