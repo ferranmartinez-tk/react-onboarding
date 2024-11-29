@@ -5,7 +5,7 @@ import { postRecipe } from "../api/recipes";
 import { Recipe } from "../types/Recipe";
 import { RecipeForm } from "./RecipeForm";
 
-import "./EditRecipe.css";
+import "./CreateRecipe.css";
 
 export const CreateRecipe = () => {
   const defaultRecipe = {
@@ -25,10 +25,10 @@ export const CreateRecipe = () => {
   };
 
   return (
-    <div className="edit-recipes-view">
-      <h3 className="edit-recipes-title">Create Recipe</h3>
+    <div className="create-recipes-view">
+      <h3 className="create-recipes-title">Create Recipe</h3>
 
-      <div className="edit-recipes-form">
+      <div className="create-recipes-form">
         <Loading isLoading={isLoading}>
           <RecipeForm recipe={defaultRecipe} onSave={onSave} />
         </Loading>
