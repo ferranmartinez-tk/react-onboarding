@@ -1,171 +1,55 @@
-import { Link } from 'react-router';
-import { Loading } from '../components/Loading';
-import { Dropdown, DropdownOption } from '../components/Dropdown';
-import { useState, useEffect } from 'react';
+import { Loading } from "../components/common/Loading";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { getIngredients, getRecipe, postRecipe, putRecipe  } from '../api/recipes';
-import { getUsers } from '../api/users';
-import { Ingredient, Recipe } from '../types/Recipe';
-import { User } from '../types/Users';
+import { getRecipe, putRecipe } from "../api/recipes";
+import { Recipe } from "../types/Recipe";
 import { useParams } from "react-router";
-import { CREATE_RECIPE_ID } from '../config';
 
-import './EditRecipe.css';
+import "./EditRecipe.css";
+import { RecipeForm } from "./RecipeForm";
 
 export const EditRecipe = () => {
-    const [recipe, setRecipe] = useState<Recipe>({
-        name: "",
-        authorID: "",
-        ingredients: [],
-    });
-    const [users, setUsers] = useState<DropdownOption[]>([]);
-    const [ingredients, setIngredients] = useState<DropdownOption[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+  const [recipe, setRecipe] = useState<Recipe>({
+    name: "",
+    authorID: "",
+    ingredients: [],
+  });
 
-    let { recipeID } = useParams() as { recipeID: string };
-    const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
-    const viewTitle = recipeID === CREATE_RECIPE_ID ? "Create Recipe" : "Edit Recipe"; 
+  let { recipeID } = useParams() as { recipeID: string };
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchRecipe = async (recipeID: string) => {
-            const recipeAPIResponse = await getRecipe(recipeID);
-            setRecipe(recipeAPIResponse);
-        };
-
-        const fetchUsers = async () => {
-            const usersAPIResponse = await getUsers();
-            const usersForDropdown: DropdownOption[] = usersAPIResponse.map((user: User) => { 
-                return { 
-                    key: user.id, 
-                    value: user.name
-                }
-            });
-            setUsers(usersForDropdown);
-            if (recipeID === CREATE_RECIPE_ID) {
-                setRecipe({...recipe, authorID: usersForDropdown[0].key});
-            }
-        };
-
-        const fetchIngredients = async () => {
-            const ingredientsAPIResponse = await getIngredients();
-            const ingredientsForDropdown: DropdownOption[] = ingredientsAPIResponse.map(
-                (ingredient: Ingredient) => { 
-                    return {
-                        key: ingredient.id, 
-                        value: ingredient.name
-                    }
-                }
-            );
-            setIngredients(ingredientsForDropdown);
-        };
-        setIsLoading(true);
-        fetchUsers();
-        fetchIngredients();
-        if (recipeID !== CREATE_RECIPE_ID) {
-            fetchRecipe(recipeID);
-        }
-        setIsLoading(false);
-    }, [recipeID]);
-
-    const onSaveButtonClick = async () => {
-        setIsLoading(true);
-        if (recipeID === CREATE_RECIPE_ID) {
-            await postRecipe(recipe);
-        } else {
-            await putRecipe(recipeID, recipe);
-        };
-        setIsLoading(false);
-        navigate("/");
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchRecipe = async (recipeID: string) => {
+      const recipeAPIResponse = await getRecipe(recipeID);
+      setRecipe(recipeAPIResponse);
     };
 
-    const removeIngredient = (ingredientIndex: number) => {
-        const newIngredients = recipe.ingredients.filter((_, i: number) => (i !== ingredientIndex));
-        setRecipe({...recipe, ingredients: newIngredients});
-    };
+    fetchRecipe(recipeID);
+    setIsLoading(false);
+  }, [recipeID]);
 
-    const changeIngredient = (ingredientIndex: number, ingredientID: string) => {
-        const newIngredients = recipe.ingredients;
-        newIngredients[ingredientIndex] = ingredientID; 
-        setRecipe({...recipe, ingredients: newIngredients});
-    };
+  const onSave = async (recipe: Recipe) => {
+    setIsLoading(true);
+    if (!recipe.id) {
+      throw Error("Recipe ID is missing");
+    }
+    await putRecipe(recipe.id, recipe);
+    setIsLoading(false);
+    navigate("/");
+  };
 
-    const addIngredient = () => {
-        const newIngredients = recipe.ingredients;
-        newIngredients.push(ingredients[0].key);
-        setRecipe({...recipe, ingredients: newIngredients});
-    };
+  return (
+    <div className="edit-recipes-view">
+      <h3 className="edit-recipes-title">Edit Recipe</h3>
 
-    return (
-        <div className="edit-recipes-view">
-            <h3 className="edit-recipes-title">{viewTitle}</h3>
-            
-            <div className="edit-recipes-form">
-                <Loading isLoading={isLoading}>
-                    <div className="edit-recipes-form-item">
-                        <label className="edit-recipes-form-item-label">Name</label>
-                        <input 
-                            type="text" 
-                            value={recipe.name} 
-                            onChange={(e) => setRecipe({...recipe, name: e.target.value})}
-                        />
-                    </div>
-
-                    <div className="edit-recipes-form-item">
-                        <label className="edit-recipes-form-item-label">Author</label>
-                        <Dropdown 
-                            value={recipe.authorID} 
-                            options={users} 
-                            onChange={(e) => setRecipe({...recipe, authorID: e.target.value})}
-                        />
-                    </div>
-
-                    <div className="edit-recipes-form-item">
-                        <label className="edit-recipes-form-item-label">Ingredients</label>
-                        <button
-                            className="edit-recipes-form-add-ingredient-button"
-                            onClick={() => addIngredient()}
-                        >
-                            Add
-                        </button>
-                        {
-                            recipe.ingredients.map((ingredient: string, ingredientIndex: number) => {
-                                return (
-                                    <div
-                                        className="edit-recipes-form-ingredient-item" 
-                                        key={ingredientIndex}
-                                    >
-                                        <Dropdown 
-                                            value={ingredient} 
-                                            options={ingredients} 
-                                            onChange={(e) => changeIngredient(ingredientIndex, e.target.value)}
-                                        /> 
-                                        <button
-                                            className="edit-recipes-form-delete-ingredient-button"
-                                            onClick={() => removeIngredient(ingredientIndex)}
-                                        >
-                                            Delete Ingredient
-                                        </button>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
-                </Loading>
-                
-                <button
-                    className="edit-recipes-save-button" 
-                    disabled={isLoading}
-                    onClick={onSaveButtonClick}
-                >
-                    Save
-                </button>
-                <button className="edit-recipes-cancel-button">
-                    <Link className="edit-recipes-cancel-button-link" to="/">
-                        Cancel
-                    </Link>
-                </button>
-            </div>
-        </div>
-    );
-}
+      <div className="edit-recipes-form">
+        <Loading isLoading={isLoading}>
+          <RecipeForm key={recipe?.id} recipe={recipe} onSave={onSave} />
+        </Loading>
+      </div>
+    </div>
+  );
+};

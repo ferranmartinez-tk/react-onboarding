@@ -1,6 +1,7 @@
 import './App.css';
 import { ListRecipes } from './views/ListRecipes';
 import { EditRecipe } from './views/EditRecipe';
+import { CreateRecipe } from './views/CreateRecipe';
 import {
   Routes,
   Route,
@@ -12,6 +13,7 @@ function App() {
       <h1 className="app-title">My <span className="app-boring-title">BORING</span> recipes app</h1>
       <div className="app-main-div">
         <Routes>
+          <Route path="/new" element={<CreateRecipe />}/>
           <Route path="/edit/:recipeID" element={<EditRecipe />}/>
           <Route path="/" element={<ListRecipes />}/>
         </Routes> 
