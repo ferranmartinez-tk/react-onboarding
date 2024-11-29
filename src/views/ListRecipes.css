@@ -1,0 +1,35 @@
+.button-recipe-create {
+    padding: 10px;
+    margin-left: 5px;
+    width: 150px;
+    height: 50px;
+    font-weight: bold;
+    background-color: blue;
+    border-radius: 10px;
+    color: white;
+}
+
+.button-recipe-create:hover {
+    background-color: darkblue;
+    cursor: pointer;
+}
+
+.recipe-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.button-recipe-create-link {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.recipe-list-div-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
