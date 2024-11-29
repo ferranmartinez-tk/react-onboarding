@@ -69,12 +69,13 @@ export const EditRecipe = () => {
     }, [recipeID]);
 
     const onSaveButtonClick = async () => {
+        setIsLoading(true);
         if (recipeID === CREATE_RECIPE_ID) {
             await postRecipe(recipe);
         } else {
             await putRecipe(recipeID, recipe);
         };
-
+        setIsLoading(false);
         navigate("/");
     };
 
