@@ -23,7 +23,6 @@ export const postRecipe = async (newRecipe: Recipe): Promise<Recipe> => {
             author_id: newRecipe.authorID,
             ingredients: newRecipe.ingredients
         } 
-        console.log(recipePayload);
         const response = await fetch(RECIPES_URL, {
             method: 'POST',
             headers: {
@@ -32,7 +31,6 @@ export const postRecipe = async (newRecipe: Recipe): Promise<Recipe> => {
             body: JSON.stringify(recipePayload)
         });
         const data: RecipeSchema = await response.json();
-        console.log(data);
         const recipe: Recipe = {
             id: data.id,
             name: data.name,
