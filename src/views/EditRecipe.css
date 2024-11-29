@@ -62,3 +62,38 @@
     text-decoration: none;
     font-weight: bold;
 }
+
+.edit-recipes-form-add-ingredient-button {
+    width: 70px;
+    margin: 5px 0;
+    height: 20px;
+    font-weight: bold;
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+}
+
+.edit-recipes-form-add-ingredient-button:hover {
+    background-color: darkgreen;
+    cursor: pointer;
+}
+
+.edit-recipes-form-delete-ingredient-button {
+    width: 70px;
+    margin: 5px 0;
+    height: 20px;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+}
+
+.edit-recipes-form-delete-ingredient-button:hover {
+    background-color: darkred;
+    cursor: pointer;
+}
+
+.edit-recipes-form-ingredient-item {
+    display: flex;
+    align-items: center;
+}

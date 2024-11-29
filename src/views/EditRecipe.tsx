@@ -123,20 +123,25 @@ export const EditRecipe = () => {
                     <div className="edit-recipes-form-item">
                         <label className="edit-recipes-form-item-label">Ingredients</label>
                         <button
+                            className="edit-recipes-form-add-ingredient-button"
                             onClick={() => addIngredient()}
                         >
-                            Add Ingredient
+                            Add
                         </button>
                         {
                             recipe.ingredients.map((ingredient: string, ingredientIndex: number) => {
                                 return (
-                                    <div key={ingredientIndex}>
+                                    <div
+                                        className="edit-recipes-form-ingredient-item" 
+                                        key={ingredientIndex}
+                                    >
                                         <Dropdown 
                                             value={ingredient} 
                                             options={ingredients} 
                                             onChange={(e) => changeIngredient(ingredientIndex, e.target.value)}
                                         /> 
                                         <button
+                                            className="edit-recipes-form-delete-ingredient-button"
                                             onClick={() => removeIngredient(ingredientIndex)}
                                         >
                                             Delete Ingredient
