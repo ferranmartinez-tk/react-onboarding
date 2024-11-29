@@ -65,12 +65,13 @@ export const EditRecipe = () => {
         }
     }, [recipeID]);
 
-    const onSaveButtonClick = () => {
+    const onSaveButtonClick = async () => {
         if (recipeID === CREATE_RECIPE_ID) {
-            postRecipe(recipe);
+            await postRecipe(recipe);
         } else {
-            putRecipe(recipeID, recipe);
+            await putRecipe(recipeID, recipe);
         };
+
         navigate("/");
     };
 
